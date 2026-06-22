@@ -12,6 +12,13 @@
       --ink: #1f2933;
       --accent: #b45309;
       --line: #e5d5b8;
+      --rainbow-red: #dc2626;
+      --rainbow-orange: #f97316;
+      --rainbow-yellow: #eab308;
+      --rainbow-green: #22c55e;
+      --rainbow-cyan: #06b6d4;
+      --rainbow-blue: #3b82f6;
+      --rainbow-purple: #a855f7;
     }
 
     * { box-sizing: border-box; }
@@ -42,6 +49,17 @@
       line-height: 1;
     }
 
+    .rainbow-text {
+      background: linear-gradient(
+        90deg,
+        var(--rainbow-red),
+        var(--rainbow-orange),
+        var(--rainbow-yellow),
+        var(--rainbow-green),
+        var(--rainbow-cyan),
+        var(--rainbow-blue),
+        var(--rainbow-purple),
+        var(--rainbow-red)
     main h1,
     main p {
       background: linear-gradient(
@@ -109,5 +127,74 @@
     <div class="stamp">Version 3 hello!</div>
     <div class="stamp">Version 4 BITCHES!</div>
   </main>
+
+  <script>
+    const board = document.querySelector('#game-board');
+    const target = document.querySelector('#target');
+    const scoreDisplay = document.querySelector('#score');
+    const timeDisplay = document.querySelector('#time');
+    const message = document.querySelector('#message');
+    const startButton = document.querySelector('#start-button');
+
+    const roundLength = 10;
+    let score = 0;
+    let timeLeft = roundLength;
+    let timerId;
+
+    function moveTarget() {
+      const boardRect = board.getBoundingClientRect();
+      const targetSize = target.offsetWidth;
+      const padding = targetSize / 2 + 8;
+      const x = padding + Math.random() * (boardRect.width - padding * 2);
+      const y = padding + Math.random() * (boardRect.height - padding * 2);
+
+      target.style.left = `${x}px`;
+      target.style.top = `${y}px`;
+    }
+
+    function endGame() {
+      clearInterval(timerId);
+      target.disabled = true;
+      startButton.disabled = false;
+      startButton.textContent = 'Play again';
+      message.textContent = `Time! You caught ${score} rainbow${score === 1 ? '' : 's'}.`;
+    }
+
+    function startGame() {
+      score = 0;
+      timeLeft = roundLength;
+      scoreDisplay.textContent = score;
+      timeDisplay.textContent = timeLeft;
+      message.textContent = 'Go! Catch the rainbow!';
+      target.disabled = false;
+      startButton.disabled = true;
+      moveTarget();
+      target.focus();
+
+      clearInterval(timerId);
+      timerId = setInterval(() => {
+        timeLeft -= 1;
+        timeDisplay.textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+          endGame();
+        }
+      }, 1000);
+    }
+
+    target.addEventListener('click', () => {
+      if (target.disabled) {
+        return;
+      }
+
+      score += 1;
+      scoreDisplay.textContent = score;
+      message.textContent = `Nice! Score: ${score}`;
+      moveTarget();
+    });
+
+    startButton.addEventListener('click', startGame);
+    window.addEventListener('resize', moveTarget);
+  </script>
 </body>
 </html>
