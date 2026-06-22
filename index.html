@@ -5,6 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Click the Rainbow Game</title>
   <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4efe4;
+      --panel: #fffaf0;
+      --ink: #1f2933;
+      --accent: #b45309;
+      --line: #e5d5b8;
+      --rainbow-red: #dc2626;
+      --rainbow-orange: #f97316;
+      --rainbow-yellow: #eab308;
+      --rainbow-green: #22c55e;
+      --rainbow-cyan: #06b6d4;
+      --rainbow-blue: #3b82f6;
+      --rainbow-purple: #a855f7;
+    }
+
     * { box-sizing: border-box; }
 
     body {
@@ -33,99 +49,60 @@
       line-height: 1;
     }
 
-    p { margin: 0 0 12px; }
-
-    .game-banner {
-      margin: 0 0 18px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      background: #dcfce7;
-      color: #166534;
-      font-weight: 700;
+    .rainbow-text {
+      background: linear-gradient(
+        90deg,
+        var(--rainbow-red),
+        var(--rainbow-orange),
+        var(--rainbow-yellow),
+        var(--rainbow-green),
+        var(--rainbow-cyan),
+        var(--rainbow-blue),
+        var(--rainbow-purple),
+        var(--rainbow-red)
+    main h1,
+    main p {
+      background: linear-gradient(
+        90deg,
+        #dc2626,
+        #f97316,
+        #eab308,
+        #22c55e,
+        #06b6d4,
+        #3b82f6,
+        #a855f7,
+        #dc2626
+      );
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      animation: rainbow-text 4s linear infinite;
     }
 
-    .game {
-      margin-top: 22px;
-      padding: 18px;
-      border: 3px solid #3b82f6;
-      border-radius: 18px;
-      background: #ffffff;
+    p {
+      margin: 0 0 12px;
     }
 
-    .game h2 {
-      margin: 0 0 10px;
-      color: #1d4ed8;
-      font-size: 1.35rem;
+    @keyframes rainbow-text {
+      from {
+        background-position: 0% 50%;
+      }
+
+      to {
+        background-position: 100% 50%;
+      }
     }
 
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-      margin: 16px 0;
-    }
-
-    button {
-      border: 0;
-      border-radius: 999px;
-      background: #b45309;
-      color: #ffffff;
-      cursor: pointer;
-      font: inherit;
-      font-weight: 700;
-      padding: 12px 18px;
-    }
-
-    button:hover { background: #92400e; }
-
-    button:focus-visible {
-      outline: 3px solid #2563eb;
-      outline-offset: 3px;
-    }
-
-    button:disabled {
-      cursor: not-allowed;
-      opacity: 0.7;
-    }
-
-    .stat {
-      display: inline-block;
-      padding: 8px 12px;
-      border: 2px solid #e5d5b8;
-      border-radius: 999px;
-      background: #fff7e8;
-      font-weight: 700;
-    }
-
-    .board {
-      position: relative;
-      min-height: 240px;
-      overflow: hidden;
-      border: 4px dashed #a855f7;
-      border-radius: 18px;
-      background: #f8fafc;
-    }
-
-    .target {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 76px;
-      height: 76px;
-      padding: 0;
-      background: linear-gradient(135deg, #ef4444, #f97316, #eab308, #22c55e, #06b6d4, #3b82f6, #a855f7);
-      border: 4px solid #ffffff;
-      border-radius: 50%;
-      box-shadow: 0 12px 28px rgba(31, 41, 51, 0.25);
-      font-size: 2rem;
-      transform: translate(-50%, -50%);
-    }
-
-    .message {
-      min-height: 1.5em;
-      margin-top: 14px;
-      font-weight: 700;
+    @media (prefers-reduced-motion: reduce) {
+      main h1,
+      main p {
+        animation: none;
+        background: none;
+        -webkit-text-fill-color: var(--ink);
+        color: var(--ink);
+      }
     }
 
     .stamp {
@@ -144,49 +121,32 @@
 </head>
 <body>
   <main>
-    <div class="game-banner">This is the committed index.html game page — not the old Cloud Test placeholder.</div>
-    <h1>Click the Rainbow Game</h1>
-    <p>Press start, then click the rainbow target as many times as you can in 10 seconds.</p>
-
-    <section class="game" aria-label="Click the Rainbow game">
-      <h2>Game area</h2>
-      <div class="controls" aria-live="polite">
-        <button id="start-button" type="button">Start game</button>
-        <span class="stat">Score: <span id="score">0</span></span>
-        <span class="stat">Time: <span id="time">10</span>s</span>
-      </div>
-
-      <div class="board" id="game-board">
-        <button class="target" id="target" type="button" aria-label="Rainbow target" disabled>🌈</button>
-      </div>
-
-      <p class="message" id="message">Click Start game to begin.</p>
-    </section>
-
-    <div class="stamp">Version 6 plain visible game</div>
+    <h1>Cloud Test</h1>
+    <p>This page exists only to test a minimal cloud coding workflow.</p>
+    <p>Change this text, push it, and confirm the deployed page updates.</p>
+    <div class="stamp">Version 3 hello!</div>
+    <div class="stamp">Version 4 BITCHES!</div>
   </main>
 
   <script>
     const board = document.querySelector('#game-board');
     const target = document.querySelector('#target');
-    const startButton = document.querySelector('#start-button');
     const scoreDisplay = document.querySelector('#score');
     const timeDisplay = document.querySelector('#time');
     const message = document.querySelector('#message');
+    const startButton = document.querySelector('#start-button');
 
-    const roundSeconds = 10;
+    const roundLength = 10;
     let score = 0;
-    let timeLeft = roundSeconds;
-    let timerId = null;
+    let timeLeft = roundLength;
+    let timerId;
 
     function moveTarget() {
       const boardRect = board.getBoundingClientRect();
       const targetSize = target.offsetWidth;
-      const padding = targetSize / 2 + 10;
-      const maxX = Math.max(padding, boardRect.width - padding);
-      const maxY = Math.max(padding, boardRect.height - padding);
-      const x = padding + Math.random() * (maxX - padding);
-      const y = padding + Math.random() * (maxY - padding);
+      const padding = targetSize / 2 + 8;
+      const x = padding + Math.random() * (boardRect.width - padding * 2);
+      const y = padding + Math.random() * (boardRect.height - padding * 2);
 
       target.style.left = `${x}px`;
       target.style.top = `${y}px`;
@@ -194,19 +154,18 @@
 
     function endGame() {
       clearInterval(timerId);
-      timerId = null;
       target.disabled = true;
       startButton.disabled = false;
       startButton.textContent = 'Play again';
-      message.textContent = `Round over. You clicked ${score} rainbow${score === 1 ? '' : 's'}!`;
+      message.textContent = `Time! You caught ${score} rainbow${score === 1 ? '' : 's'}.`;
     }
 
     function startGame() {
       score = 0;
-      timeLeft = roundSeconds;
+      timeLeft = roundLength;
       scoreDisplay.textContent = score;
       timeDisplay.textContent = timeLeft;
-      message.textContent = 'Go! Click the rainbow target!';
+      message.textContent = 'Go! Catch the rainbow!';
       target.disabled = false;
       startButton.disabled = true;
       moveTarget();
@@ -230,7 +189,7 @@
 
       score += 1;
       scoreDisplay.textContent = score;
-      message.textContent = `Nice click! Score: ${score}`;
+      message.textContent = `Nice! Score: ${score}`;
       moveTarget();
     });
 
